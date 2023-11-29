@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Group Chat | AgroSphere{% endblock %}
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'chat/chat.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-1">
+    <h3 class="mb-2">{{ group.name }} Community Chat</h3>
+
+    <div id="chat-container">
+        {% for message in messages %}
+            <div class="message">
+                <div class="profile-details">
+                    <div class="profile-image">
+                        {% if message.sender.profile.picture %}
+                            <a href="{% url 'profile_details' message.sender.id %}">
+                                <img src="{{ message.sender.profile.picture.url }}" alt="Profile Image">
+                            </a>
+                        {% else %}
+                            <a href="{% url 'profile_details' message.sender.id %}">
+                                <img src="{% static 'chat/default_profile_image.png' %}" alt="Default Profile Image">
+                            </a>
+                        {% endif %}
+                    </div>
+                    <div class="user-details">
+                        <p>{{ message.sender.username }}</p>
+                        <p class="timestamp">{{ message.timestamp }}</p>
+                    </div>
+                </div>
+                <div class="message-content">
+                    {% if message.content %}
+                        <p>{{ message.content }}</p>
+                    {% endif %}
+                    {% if message.image %}
+                        <img src="{{ message.image.url }}" alt="Image">
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    
+    <div class="input-group mb-3 fixed-bottom-group">
+        <input type="text" id="message-input" class="form-control" placeholder="Type your message...">
+        <input type="hidden" id="group-id" value="{{ group.id }}">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="image-upload-btn">
+                <i class="fas fa-plus"></i> Image
+            </button>
+        </div>
+        <div class="custom-file" style="display: none;">
+            <input type="file" class="custom-file-input" id="image-input" accept="image/*">
+            <label class="custom-file-label" for="image-input">Choose image</label>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="button" id="send-btn">Send</button>
+        </div>
+    </div>
+</div>
+<script src="{% static 'chat/group_chat.js' %}"></script>
+
+{% endblock %}

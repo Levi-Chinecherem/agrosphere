@@ -1,0 +1,39 @@
+<!-- newsfeed/templates/newsfeed/share_post_popup.html -->
+<div id="sharePostPopup">
+    <h3>Share Post</h3>
+    <form id="sharePostForm">
+        <!-- Add form elements, including sharer_description -->
+        <textarea name="sharer_description" rows="4" cols="50" placeholder="Add your description..."></textarea>
+        <button type="submit">Share</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('sharePostForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        // Send an AJAX POST request to actually share the post
+        const sharerDescription = document.querySelector('textarea[name="sharer_description"]').value;
+        const formData = new FormData();
+        formData.append('sharer_description', sharerDescription);
+
+        fetch('/sharing/share-post/{{ original_post.id }}/', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrf_token,  // Make sure to include the CSRF token
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Close the popup or do any other necessary UI updates
+                console.log('Post shared successfully!');
+            } else {
+                console.error('Error sharing post:', data.error);
+            }
+        })
+        .catch(error => console.error('Error sharing post:', error));
+    });
+</script>

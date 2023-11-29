@@ -1,0 +1,21 @@
+admin:
+admin
+password123
+
+other users has same password:
+Password@123
+
+their usernames:
+alice@doe
+mike@doe
+grace@doe
+joy@doe
+great@doe
+light@doe
+
+
+go to this link to begin
+http://127.0.0.1:8000/newsfeed/news-feed/
+
+admin dashboard link
+http://127.0.0.1:8000/admin/

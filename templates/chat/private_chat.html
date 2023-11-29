@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Private Chat with {{ recipient.username }} | AgroSphere{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'chat/chat.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-1">
+    <h3 class="mb-4">Private Chat with {{ recipient.username }}</h3>
+
+    
+    <div id="chat-container">
+        {% for message in messages %}
+            <div class="message">
+                <div class="profile-details">
+                    <div class="profile-image">
+                        {% if message.sender.profile.picture %}
+                            <img src="{{ message.sender.user.picture.url }}" alt="Profile Image">
+                        {% else %}
+                            <img src="{% static 'chat/default_profile_image.png' %}" alt="Default Profile Image">
+                        {% endif %}
+                    </div>
+                    <div class="user-details">
+                        <p>{{ message.sender.username }}</p>
+                        <p class="timestamp">{{ message.timestamp }}</p>
+                    </div>
+                </div>
+                <div class="message-content">
+                    {% if message.content %}
+                        <p>{{ message.content }}</p>
+                    {% endif %}
+                    {% if message.image %}
+                        <img src="{{ message.image.url }}" alt="Image">
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+
+    <div class="input-group mb-2 fixed-bottom-group">
+        <input type="text" id="message-input" class="form-control" placeholder="Type your message...">
+        <input type="hidden" id="recipient-id" value="{{ recipient.id }}">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="image-upload-btn">
+                <i class="fas fa-plus"></i> Image
+            </button>
+        </div>
+        <div class="custom-file" style="display: none;">
+            <input type="file" class="custom-file-input" id="image-input" accept="image/*">
+            <label class="custom-file-label" for="image-input">Choose image</label>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="button" id="send-btn">Send</button>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'chat/chat.js' %}"></script>
+{% endblock %}

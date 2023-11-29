@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Share Post | AgroSphere{% endblock %}
+
+{% block content %}
+  <div class="container mt-3">
+    <h2>Share Post</h2>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Are you sure you want to share this post?</h5>
+        <p class="card-text">Post content: {{ post.content }}</p>
+        <p class="card-text">Posted by: <a href="{% url 'profile_details' post.user.id %}">{{ post.user.username }}</a></p>
+        <button id="sharePostBtn" data-post-id="{{ post.id }}" class="btn btn-primary">Share</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const sharePostBtn = document.getElementById('sharePostBtn');
+
+      sharePostBtn.addEventListener('click', function () {
+        const postId = sharePostBtn.getAttribute('data-post-id');
+        sharePost(postId);
+      });
+
+      function sharePost(postId) {
+        fetch(`/share_post/${postId}/`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 'ok') {
+              alert(data.message);
+            } else {
+              alert(data.message);
+            }
+          })
+          .catch(error => console.error('Error sharing post:', error));
+      }
+    });
+  </script>
+{% endblock %}

@@ -1,0 +1,87 @@
+<!-- newsfeed/templates/newsfeed/news_feed.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}News Feed | AgroSphere{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'newsfeed/news_feed.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'newsfeed/news_feed.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-3 main">
+    
+    <h2>News Feed</h2>
+    
+    <div class="row">
+      {% for post in posts %}
+        <div class="col-md-12 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="user-info">
+                  <a href="{% url 'profile_details' post.user.id %}">
+                    <img src="{{ post.user.profile.image.url }}" alt="{{ post.user.username }}" class="rounded-circle user-image mr-2" style="width: 30px; height: 30px;">
+                  </a>
+                  <div class="user-details">
+                    <h5 class="card-title">
+                      <a href="{% url 'profile_details' post.user.id %}">
+                        {{ post.user.username }}
+                      </a>
+                    </h5>
+                    <p class="card-text">{{ post.user.profile.occupation }}</p>
+                  </div>
+                </div>
+                <div class="post-time">
+                  <p class="card-text">Posted at: {{ post.created_at }}</p>
+                </div>
+              </div>
+
+              {% if post.image %}
+                <img src="{{ post.image.url }}" alt="Post Image" class="img-fluid">
+              {% endif %}
+
+              <p id="content-{{ post.id }}" class="card-text mt-3 {% if post.content|length > 100 %}truncated{% endif %}">
+                {{ post.content|safe|slice:":100" }}...
+                
+                <a href="{% url 'feed_details' post.id %}" class="btn btn-link">Read</a>
+              </p>
+
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="reaction-buttons">
+                  <button type="button" class="btn btn-outline-primary like-button" data-post-id="{{ post.id }}">
+                    {% if request.user in post.liked_by.all %}
+                      Unlike
+                    {% else %}
+                      Like
+                    {% endif %}
+                  </button>
+                  <a href="{% url 'private_chat' recipient_id=post.user.id %}" class="btn btn-outline-secondary {% if request.user == post.user %}disabled{% endif %}">
+                    Chat
+                  </a>                  
+                  <button type="button" class="btn btn-outline-info share-button" data-post-id="{{ post.id }}">
+                    Share
+                  </button>
+                </div>
+                <p class="card-text">Likes: <span class="like-count">{{ post.liked_by.count }}</span></p>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    
+    <!-- Floating Create Post Button Container -->
+    <div style="position: fixed; bottom: 40px; right: 20px; z-index: 1000;">
+      <a href="{% url 'create_post' %}" class="btn btn-primary create-post-button">
+        <i class="fas fa-plus"></i>
+      </a>
+    </div>
+  </div>
+  <br><br>
+{% endblock %}

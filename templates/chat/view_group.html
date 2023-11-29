@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ group.name }} | AgroSphere{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h2 class="text-center mb-4">{{ group.name }}</h2>
+
+    <!-- Group Details -->
+    <div class="card">
+      <img src="{{ group.image.url }}" class="card-img-top" alt="{{ group.name }}">
+      <div class="card-body">
+        <p class="card-text">{{ group.description }}</p>
+        <!-- Add more details about the group as needed -->
+        <a href="{% url 'update_group' group.id %}" class="btn btn-primary">Edit Group</a>
+        <a href="{% url 'delete_group' group.id %}" class="btn btn-danger">Delete Group</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

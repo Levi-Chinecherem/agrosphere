@@ -1,0 +1,81 @@
+
+/* Add this to your CSS styles */
+.downloadable-image {
+    max-width: 100px;
+    width: auto;
+    height: auto;
+    overflow: hidden; /* Ensure the image doesn't overflow if it's larger */
+}
+
+.chat-image {
+    width: 100%;
+    height: auto;
+    display: block; /* Remove any extra spacing around the image */
+}
+
+/* Add this to your existing CSS file or create a new one and link it in your HTML */
+.fixed-bottom-group {
+    position: fixed;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Ensure it's above other elements, adjust as needed */
+    background-color: #fff; /* Background color, change as needed */
+    padding: 10px; /* Add some padding to make it visually pleasing */
+    border-top: 1px solid #ccc; /* Add a border at the top */
+}
+
+/* static/chat/chat.css */
+
+/* Style for the chat container */
+#chat-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+/* Style for individual chat messages */
+.message {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Style for profile details in the message */
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-right: 10px;
+}
+
+/* Style for the profile image */
+.profile-image {
+    width: 30px; /* Adjust as needed */
+    height: 30px; /* Adjust as needed */
+    border-radius: 50%;
+}
+
+.profile-image img{
+    width: 100%;
+}
+/* Style for the username and timestamp */
+.user-details {
+    text-align: left;
+}
+
+/* Style for the timestamp */
+.timestamp {
+    font-size: 12px;
+    color: #777;
+}
+
+/* Style for the message content */
+.message-content {
+    text-align: right;
+}

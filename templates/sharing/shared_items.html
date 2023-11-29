@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Shared Items | AgroSphere{% endblock %}
+
+{% block content %}
+  <div class="container mt-3">
+    <h2>Shared Items</h2>
+    <div class="row">
+      {% if shared_items %}
+        {% for shared_item in shared_items %}
+          <div class="col-md-6 mb-3">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  Shared by: <a href="{% url 'profile_details' shared_item.user.id %}">{{ shared_item.user.username }}</a>
+                </h5>
+                <p class="card-text">
+                  Shared at: {{ shared_item.shared_at }}
+                </p>
+                <p class="card-text">
+                  Original post by: <a href="{% url 'profile_details' shared_item.post.user.id %}">{{ shared_item.post.user.username }}</a>
+                </p>
+                {% if shared_item.post.image %}
+                  <img src="{{ shared_item.post.image.url }}" alt="Post Image" class="img-fluid">
+                {% endif %}
+                <p class="card-text">Post Content: {{ shared_item.post.content }}</p>
+                <p class="card-text">
+                  <a href="{% url 'feed_details' post_id=shared_item.post.id %}">View Original Post</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+    
+      {% else %}
+        <p>No shared items yet.</p>
+      {% endif %}
+    </div>
+  </div><br><br>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Feed Details | AgroSphere{% endblock %}
+
+{% block content %}
+  <div class="container mt-3">
+    <h2>Feed Details</h2>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ post.user.username }}</h5>
+        <p class="card-text">{{ post.content|safe }}</p>
+        {% if post.image %}
+          <img src="{{ post.image.url }}" alt="Post Image" class="img-fluid">
+        {% endif %}
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <div class="reaction-buttons">
+            <button type="button" class="btn btn-outline-primary like-button" data-post-id="{{ post.id }}">
+              {% if request.user in post.liked_by.all %}
+                Unlike
+              {% else %}
+                Like
+              {% endif %}
+            </button>
+            <a href="{% url 'private_chat' recipient_id=post.user.id %}" class="btn btn-outline-secondary">Chat</a>
+            <button type="button" class="btn btn-outline-info share-button" data-post-id="{{ post.id }}">
+              Share
+            </button>
+          </div>
+          <p class="card-text">Likes: <span class="like-count">{{ post.liked_by.count }}</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

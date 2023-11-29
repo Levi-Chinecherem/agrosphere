@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Communities | AgroSphere{% endblock %}
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'newsfeed/news_feed.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-3">
+    <h2>Communities</h2>
+    <div class="row">
+      {% for group in groups %}
+        <div class="col-md-4 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex">
+                {% if group.image %}
+                  <img src="{{ group.image.url }}" alt="{{ group.name }}" class="rounded-circle mr-3" style="width: 50px; height: 50px;">
+                {% endif %}
+                <div>
+                  <h5 class="card-title">{{ group.name }}</h5>
+                  <p class="card-text">{{ group.description }}</p>
+                </div>
+              </div>
+              <a href="{% url 'group_chat' group.id %}" class="btn btn-primary mt-2">Join Community</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <!-- Floating Create Post Button Container -->
+    <div style="position: fixed; bottom: 40px; right: 20px; z-index: 1000;">
+      <a href="{% url 'create_group' %}" class="btn btn-primary create-post-button">
+        <i class="fas fa-plus"></i>
+      </a>
+    </div>
+  </div>
+{% endblock %}

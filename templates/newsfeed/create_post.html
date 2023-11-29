@@ -1,0 +1,15 @@
+<!-- newsfeed/templates/newsfeed/create_post.html -->
+{% extends 'base.html' %}
+
+{% block title %}Create Post | AgroSphere{% endblock %}
+
+{% block content %}
+  <div class="container mt-3">
+    <h2>Create Post</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Create Post</button>
+    </form>
+  </div>
+{% endblock %}

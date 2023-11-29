@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create Group | AgroSphere{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h2 class="text-center mb-4">Create a New Group</h2>
+
+    <!-- Group Creation Form -->
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Create Group</button>
+    </form>
+  </div>
+{% endblock %}
